@@ -68,7 +68,6 @@ DStarLiteFinder.prototype._getSucc = function(u) {
 	return this.grid
 		.getNeighbors(u, this.allowDiagonal, this.dontCrossCorners)
 		//.filter(function(s) { return s.rhs < u.rhs });
-
 }
 
 DStarLiteFinder.prototype._getPred = function(u) {
@@ -141,26 +140,22 @@ DStarLiteFinder.prototype.replan = function() {
 	return this._constructPath();
 }
 
-
 DStarLiteFinder.prototype._constructPath = function() {
 	var path = [];
 	var curr = this.startNode;
 	var endNode = this.endNode;
-	var next = null;
 
 	while (curr && curr !== endNode) {
 		path.push(curr);
 		var minval = Infinity;
 		var succ = this._getSucc(curr);
 		for (var i = 0; i < succ.length; ++i) {
-			var g = succ[i].g;
-			var val = cost(curr, succ[i]) + g;
+			var val = cost(curr, succ[i]) + succ[i].g;
 			if (val < minval) {
 				minval = val;
-				next = succ[i];
+				curr = succ[i];
 			}
 		}
-		curr = next;
 	}
 
 	return path;
