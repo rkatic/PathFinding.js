@@ -26,13 +26,28 @@ var Panel = {
      */
     getFinder: function() {
         var finder, selected_header, heuristic, allowDiagonal, biDirectional, dontCrossCorners, weight, trackRecursion, timeLimit;
-        
+
         selected_header = $(
             '#algorithm_panel ' +
             '.ui-accordion-header[aria-selected=true]'
         ).attr('id');
-        
+
         switch (selected_header) {
+
+        case 'dstar_header':
+            allowDiagonal = typeof $('#dstar_section ' +
+                                     '.allow_diagonal:checked').val() !== 'undefined';
+            dontCrossCorners = typeof $('#dstar_section ' +
+                                     '.dont_cross_corners:checked').val() !=='undefined';
+
+            heuristic = $('input[name=dstar_heuristic]:checked').val();
+            finder = new PF.DStarLiteFinder({
+                allowDiagonal: allowDiagonal,
+                dontCrossCorners: dontCrossCorners,
+                heuristic: PF.Heuristic[heuristic],
+                weight: weight
+            });
+            break;
 
         case 'astar_header':
             allowDiagonal = typeof $('#astar_section ' +
@@ -131,7 +146,7 @@ var Panel = {
             trackRecursion = typeof $('#jump_point_section ' +
                                      '.track_recursion:checked').val() !== 'undefined';
             heuristic = $('input[name=jump_point_heuristic]:checked').val();
-            
+
             finder = new PF.JumpPointFinder({
               trackJumpRecursion: trackRecursion,
               heuristic: PF.Heuristic[heuristic]
