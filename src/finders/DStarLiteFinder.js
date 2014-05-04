@@ -145,8 +145,11 @@ DStarLiteFinder.prototype._constructPath = function() {
 	var curr = this.startNode;
 	var endNode = this.endNode;
 
-	while (curr && curr !== endNode) {
-		path.push(curr);
+	while (curr) {
+		path.push([curr.x, curr.y]);
+		if (curr === endNode) {
+			break;
+		}
 		var minval = Infinity;
 		var succ = this._getSucc(curr);
 		for (var i = 0; i < succ.length; ++i) {
