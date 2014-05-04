@@ -86,10 +86,10 @@ DStarLiteFinder.prototype._updateState = function(s) {
 		var succ = this._getSucc(s);
 		for (var i = 0; i < succ.length; ++i) {
 			if ('g' in succ[i]) {
-				rhs = min(s.rhs, succ[i].g + cost(s, succ[i]));
+				rhs = min(rhs, succ[i].g + cost(s, succ[i]));
 			}
 		}
-		s.rhs = min(rhs, s.rhs);
+		s.rhs = rhs;
 	}
 
 	if (s.inOpenList === 1) {
